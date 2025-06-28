@@ -14,7 +14,7 @@ import Navbar from './DashBoard/Navbar'
 import { Route, Routes, useParams } from 'react-router-dom'
 import Hero from './DashBoard/Hero'
 import { useNavigate } from 'react-router-dom';
-import (useParams)
+
 function App() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null)
