@@ -1,83 +1,65 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import { Note } from './Note';
-export default function Login({handleLogin}) {
-    const[email, setEmail]=useState("");
-    const[password,setPassword]=useState("");
-    const submitHandler=(e)=>{
+import { useNavigate } from 'react-router-dom';
+export default function Login({ handleLogin ,user}) {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const submitHandler = (e) => {
         e.preventDefault()
-        //console.log("submited",email+" "+password)
-        console.log("hii")
-        handleLogin(email,password)
+        handleLogin(email, password)
         setEmail("")
         setPassword("")
     }
+    const navigate=useNavigate()
     return (
         <>
-        <Note></Note>
-            <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 formContainer">
-                <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                   
-                    <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
+            
+            <div className="flex min-h-screen flex-col justify-center items-center mb-8">
+                <Note />
+                <div className="w-full max-w-md  rounded-lg shadow-lg p-8">
+                    <h2 className="text-2xl font-bold text-center text-gray-900 mb-8">
                         Sign in to your account
                     </h2>
-                </div>
-
-                <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form onSubmit={(e)=>{
-                        submitHandler(e)
-                    }} className="space-y-6">
+                    <form onSubmit={submitHandler} className="space-y-6">
                         <div>
-                            <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900 adress">
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                                 Email address
                             </label>
-                            <div className="mt-2">
-                                <input value={email}
-                                onChange={(e)=>{
-                                    setEmail(e.target.value)
-                                }}
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    required
-                                    autoComplete="email"
-                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                />
-                            </div>
+                            <input
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                id="email"
+                                name="email"
+                                type="email"
+                                required
+                                autoComplete="email"
+                                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            />
                         </div>
-
                         <div>
-                
-                                <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900 password">
-                                    Password
-                                </label>
-                              
-                            
-                            <div className="mt-2">
-                                <input value={password}
-                                onChange={(e)=>{
-                                    setPassword(e.target.value)
-                                }}
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    required
-                                    autoComplete="current-password"
-                                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                />
-                            </div>
+                            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                                Password
+                            </label>
+                            <input
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                id="password"
+                                name="password"
+                                type="password"
+                                required
+                                autoComplete="current-password"
+                                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            />
                         </div>
-
                         <div>
-                            <button
+                            <button onClick={() => navigate(`/${user}`)}
                                 type="submit"
-                                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                className="w-full flex justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600"
                             >
                                 Log in
                             </button>
                         </div>
                     </form>
-
-                  
                 </div>
             </div>
         </>

@@ -1,21 +1,18 @@
-import { useContext,useState ,useEffect} from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthProvider";
 import { Header1 } from "./Header1";
-export function Admin(props){
-    const [userData,setUserData] = useContext(AuthContext)
-    
-    const[taskTitle,setTaskTitle]=useState('')
-    const[taskDescription,setTaskDescription]=useState('')
-    const[taskDate,setTaskDate]=useState('')
-    const[asignTo,setAsignTo]=useState('')
-    const[category,setCategory]=useState('')
-    const[task,setTask]=useState({})
-    //const [userData, setUserData] = useContext(AuthContext)
-    
+import { Link } from "react-router-dom";
+export function Admin(props) {
+    const [userData, setUserData] = useContext(AuthContext);
+
+    const [taskTitle, setTaskTitle] = useState('');
+    const [taskDescription, setTaskDescription] = useState('');
+    const [taskDate, setTaskDate] = useState('');
+    const [asignTo, setAsignTo] = useState('');
+    const [category, setCategory] = useState('');
+
     const submitHandler = (e) => {
         e.preventDefault();
-
-        // Create the new task object
         const newTask = {
             taskTitle,
             taskDescription,
@@ -26,13 +23,10 @@ export function Admin(props){
             failed: false,
             completed: false
         };
-
-        // Update the task state
-        setTask(newTask);
-
-        // Update the userData with the new task
         const updatedData = userData.map(elem => {
+            
             if (asignTo === elem.firstName) {
+                // console.log(newTask);
                 return {
                     ...elem,
                     tasks: [...elem.tasks, newTask],
@@ -44,101 +38,118 @@ export function Admin(props){
             }
             return elem;
         });
-
-        // Update the userData state
         setUserData(updatedData);
-
-        console.log(updatedData);
-        setTaskTitle("")
-        setTaskDate("")
-        setTaskDescription("")
-        setAsignTo("")
-        setCategory("")
+        setTaskTitle("");
+        setTaskDate("");
+        setTaskDescription("");
+        setAsignTo("");
+        setCategory("");
     };
-    
-    return <>
-    <Header1 changeUser={props.changeUser}></Header1>
-  
-        <div className="row adminC">
-            <div className="col-sm-6 mb-3 mb-sm-0">
-                <div className=" adminF">
-                    <div className="mb-3">
-                        <h4 htmlFor="formGroupExampleInput" className="form-label">Task Title</h4>
-                        <input value={taskTitle}
-                        onChange={(e)=>{
-                            setTaskTitle(e.target.value)}}type="text" className="form-control" placeholder="Enter Task title"/>
+
+    return (
+        <>
+            <Header1 changeUser={props.changeUser} />
+            <div className='bg-blue-150'>
+                
+            <div className="flex flex-col items-center my-16 px-2 w-full">
+                    <div className='text-2xl font-bold text-black-100'>Assign Task To The Employee</div>
+                <form
+                    onSubmit={submitHandler}
+                    className=" rounded-lg shadow-lg p-8 w-full mb-10"
+                >
+                    <div className="flex flex-col md:flex-row gap-8">
+                        {/* Left column */}
+                        <div className="flex-1 flex flex-col gap-4">
+                            <div>
+                                <label className="block text-gray-700 font-semibold mb-2">Task Title</label>
+                                <input
+                                    value={taskTitle}
+                                    onChange={(e) => setTaskTitle(e.target.value)}
+                                    type="text"
+                                    className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                    placeholder="Enter Task title"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-gray-700 font-semibold mb-2">Date</label>
+                                <input
+                                    value={taskDate}
+                                    onChange={(e) => setTaskDate(e.target.value)}
+                                    type="date"
+                                    className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-gray-700 font-semibold mb-2">Assign To</label>
+                                <input
+                                    value={asignTo}
+                                    onChange={(e) => setAsignTo(e.target.value)}
+                                    type="text"
+                                    className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                    placeholder="Enter Employee Name"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-gray-700 font-semibold mb-2">Category</label>
+                                <input
+                                    value={category}
+                                    onChange={(e) => setCategory(e.target.value)}
+                                    type="text"
+                                    className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                    placeholder="Eg. design, dev, etc"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        {/* Right column */}
+                        <div className="flex-1 flex flex-col ">
+                            <label className="block text-gray-700 font-semibold mb-2">Description</label>
+                            <textarea
+                                value={taskDescription}
+                                onChange={(e) => setTaskDescription(e.target.value)}
+                                className="w-full border border-gray-300 rounded px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400 flex-1"
+                                rows={8}
+                                placeholder="Task description"
+                                required
+                            />
+                            <button
+                                type="submit"
+                                className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-700 transition w-full"
+                            >
+                                Create Task
+                            </button>
+                        </div>
                     </div>
-                    <div className="mb-3">
-                        <h4 htmlFor="formGroupExampleInput" className="form-label">Date</h4>
-                        <input value={taskDate}
-                            onChange={(e) => {
-                                setTaskDate(e.target.value)
-                            }} type="date" className="form-control" placeholder="Enter Task title" />
-                    </div>
-                    <div className="mb-3">
-                        <h4 htmlFor="formGroupExampleInput" className="form-label">Assign To</h4>
-                        <input value={asignTo}
-                            onChange={(e) => {
-                                setAsignTo(e.target.value)
-                            }} type="text" className="form-control" placeholder="Enter Employee Name" />
-                    </div>
-                    <div className="mb-3">
-                        <h4 htmlFor="formGroupExampleInput" className="form-label">Category</h4>
-                        <input value={category}
-                            onChange={(e) => {
-                                setCategory(e.target.value)
-                            }} type="text" className="form-control" placeholder="Eg. design, dev, etc" />
+                </form>
+                <div className="w-full ">
+                    <div className=" rounded-lg shadow p-6">
+                        <h3 className="text-xl font-bold text-center mb-4">Employee Details</h3>
+                        <div className="grid grid-cols-5 gap-2 bg-red-400 text-white rounded mb-2 px-2 py-2">
+                            <div className="font-semibold">Employee Name</div>
+                            <div className="font-semibold">New Task</div>
+                            <div className="font-semibold">Active Task</div>
+                            <div className="font-semibold">Completed Task</div>
+                            <div className="font-semibold">Failed Task</div>
+                        </div>
+                        {userData.map((elem) => (
+                            <div
+                                key={elem.email}
+                                className="grid grid-cols-5  border-b border-gray-200 py-2 text-center text-gray-800"
+                            >
+                                <div className='mr-60'>{elem.firstName}</div>
+                                <div className='mr-60'>{elem.taskCounts.newTask}</div>
+                                <div className='mr-60'>{elem.taskCounts.active}</div>
+                                <div className='mr-60'>{elem.taskCounts.completed}</div>
+                                <div className='mr-60'>{elem.taskCounts.failed}</div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
-            <div className="col-sm-6">
-                <div className=" adminF">
-                    <div className="mb-3">
-                        <h4 htmlFor="formGroupExampleInput" className="form-label">Description</h4>
-                        <textarea value={taskDescription}
-                            onChange={(e) => {
-                                setTaskDescription(e.target.value)
-                            }} className="form-control" cols="30" rows="10" placeholder="Example input placeholder"/>
-                    </div>
-                    <div className="mb-3">
-                        <h4 htmlFor="formGroupExampleInput2" className="form-label"></h4>
-                        <div className="Fbtn">
-                                <button onClick={(e) => {
-                                    submitHandler(e)
-                                }} className="form-contro" >Create Task</button></div>
-                    </div>
-                </div>
             </div>
-           
-        </div>
-   
-        <div className="menu bg-[#1c1c1c1c]">
-            <div><h3 className="stats">Employee Details</h3></div>
-            <div className="d-flex justify-between menu1">
-                {/* <h5 className="px-9 w-1/5 bg-red-400">Employee Name</h5>
-                <h5 className='w-1/5 bg-red-400'>New Task</h5>
-                <h5 className="right1 w-1/5 bg-red-400">Active Task</h5> */}
-                <h5 className="right1 w-1/5 bg-red-400 ">Employee Name</h5>
-                <h5 className="right1 w-1/5 bg-red-400 ">New Task</h5>
-                <h5 className="right1 w-1/5 bg-red-400 ">Active Task</h5>
-                <h5 className="right1 w-1/5 bg-red-400">Completed Task</h5>
-                <h5 className="right1 w-1/5 bg-red-400 ">Failed Task</h5>
-               
-            </div>
-            {userData.map(function(elem){
-                return <>
-                <div>
-                       
-                    <div className="d-flex justify-between menu1">
-                    <h5 className="px-9 w-1/5 text-white" key={elem.firstName}>{elem.firstName}</h5>
-                    <h5 className="w-1/5 text-white" key={new Date()}>{elem.taskCounts.newTask}</h5>
-                    <h5 className="right1 w-1/5 text-white" key={elem.password}>{elem.taskCounts.active}</h5>
-                    <h5 className="right1 w-1/5 text-white" key={elem.id}>{elem.taskCounts.completed}</h5>
-                    <h5 className="right1 w-1/5 text-white" key={elem.email}>{elem.taskCounts.failed}</h5>
-                </div>
-                    </div>
-                </>
-            })}
-        </div>
-    </>
+        </>
+    );
 }

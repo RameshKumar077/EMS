@@ -1,31 +1,29 @@
-
 import { useState } from 'react';
 
 export function ChangeButton() {
-    const [isCompleted, setIsCompleted] = useState(false); // Tracks if "Completed" is clicked
-    const [isFailed, setIsFailed] = useState(false); // Tracks if "Failed" is clicked
+    const [isCompleted, setIsCompleted] = useState(false);
+    const [isFailed, setIsFailed] = useState(false);
 
     return (
         <>
-            {/* Show "Mark As Completed" and "Mark As Failed" buttons only if neither is clicked */}
             {!isCompleted && !isFailed && (
-                <div>
+                <div className="flex gap-2">
                     <button
                         type="button"
-                        className="btn btn-success change"
+                        className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 transition"
                         onClick={() => {
-                            setIsCompleted(true); // Show "Completed" button
-                            setIsFailed(false); // Ensure "Failed" button is hidden
+                            setIsCompleted(true);
+                            setIsFailed(false);
                         }}
                     >
                         Mark As Completed
                     </button>
                     <button
                         type="button"
-                        className="btn btn-danger change"
+                        className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
                         onClick={() => {
-                            setIsFailed(true); // Show "Failed" button
-                            setIsCompleted(false); // Ensure "Completed" button is hidden
+                            setIsFailed(true);
+                            setIsCompleted(false);
                         }}
                     >
                         Mark As Failed
@@ -33,16 +31,14 @@ export function ChangeButton() {
                 </div>
             )}
 
-            {/* Show "Completed" button only if isCompleted is true */}
             {isCompleted && (
-                <button type="button" className="btn btn-success">
+                <button type="button" className="bg-green-600 text-white px-3 py-1 rounded">
                     Completed
                 </button>
             )}
 
-            {/* Show "Failed" button only if isFailed is true */}
             {isFailed && (
-                <button type="button" className="btn btn-danger">
+                <button type="button" className="bg-red-600 text-white px-3 py-1 rounded">
                     Failed
                 </button>
             )}
