@@ -32,7 +32,7 @@ const Navbar = ({ data, changeUser,user,mail }) => {
     const [log, setLog] = useState(false);
     const login=()=>{
         navigate('/login');
-       
+        setIsMenuOpen(false)
     }
     const logOut = () => {
         console.log("click");
@@ -40,7 +40,7 @@ const Navbar = ({ data, changeUser,user,mail }) => {
         changeUser('');
         setIsLogged(false);
         navigate('/');
-      
+        setIsMenuOpen(false)
         // setTimeout(() => {
         //     window.location.reload();
         // }, 100);
@@ -150,19 +150,25 @@ const Navbar = ({ data, changeUser,user,mail }) => {
                         </a>
                     ))}
 
-                    {isLogged && <div onClick={handleDashboardClick} className={`border px-4 py-1 text-sm font-light rounded-full cursor-pointer ${isScrolled ? 'text-black' : 'text-blue'} transition-all`}>
-                        DashBoard
-                    </div>}
+{user && (
+                        <Link
+                            to={user === 'admin' ? '/admin' : `/employee/${encodeURIComponent(mail)}`} onClick={() => setIsMenuOpen(false)}
+                            className={`border px-4 py-1 text-sm font-light rounded-full cursor-pointer  text-gray-800 transition-all duration-500 ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}`}
+                        >
+                            Dashboard
+                        </Link>
+                    )}
 
                     {isLogged ? (<button
                         onClick={logOut}
-                        className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
+
+                        className={`bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-all duration-500 ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}`}
                     >
                         Log Out
                     </button>) : (
                         <button
                             onClick={login}
-                            className="bg-black text-white px-8 py-2.5 rounded-full ml-4 transition-all duration-500"
+                                className={`bg-black text-white px-8 py-2.5 rounded-full ml-4  transition-all duration-500 ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}`}
                         >
                             Login
                         </button>
